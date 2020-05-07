@@ -1,3 +1,69 @@
 spring:
   profiles:
     active: dev
+
+  #=======================================common begin=====================================
+
+  #=======================================rabbitMq begin===================================
+  #其中bus采用mq,配合webHook来做自动配置更新
+  rabbitmq:
+    host: 47.114.132.140
+    port: 5672
+    username: admin
+    password: admin
+  #=======================================rabbitMq end===================================
+
+  #spring.application.name,对应配置文件的前缀比如: user-dev.yml
+  application:
+    name: user
+
+  #====================================spring cloud config begin===========================
+  cloud:
+    config:
+      label: master
+      uri: http://localhost:80/ #config server地址
+#      discovery:
+#        enabled: true
+#        service-id: config-server
+#====================================spring cloud config end===========================
+
+server:
+  port: 8881
+
+#=====================================spring actuator begin===================
+#spring actuator端点的启用和暴露
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#=====================================spring actuator  end===================
+#=======================================common end=======================================
+
+#=======================================dev begin=======================================
+---
+spring:
+  cloud:
+    config:
+      profile: dev
+  profiles:
+    - dev
+server:
+  port: 8882
+#=======================================dev end=======================================
+
+---
+#=======================================test begin=======================================
+spring:
+  cloud:
+    config:
+      profile: test
+  profiles:
+    - test
+
+server:
+  port: 8883
+#=======================================test end=======================================

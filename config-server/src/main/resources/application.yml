@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitlab.com/kamjin1996/config-test.git #仓库地址,gitlab必须加.git,github不用加
+          search-paths:
+            - config/* #配置文件存放的目录
+          username: kamjin1996 #登录git账号
+          password: 1569558447 #登录git密码
+      label: master #分支，默认master
+
+  rabbitmq:
+    host: 47.114.132.140
+    port: 5672
+    username: admin
+    password: admin
+
+#-----------------------------------#SpringCloud 2.0.0版本以后暴露接口方式，暴露/bus-refresh接口-----------------
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh #注意这里的bus-refresh不能写成"*"，否则会导致配置中心请求路径和bus-refresh冲突
+
+server:
+  port: 80
